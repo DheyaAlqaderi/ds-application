@@ -282,9 +282,9 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                     const SizedBox(height: Dimensions.paddingSizeLarge),
 
-                    Text('${getTranslated('version', context)} ${AppConstants.appVersion}', style: rubikMedium.copyWith(
-                      color: Theme.of(context).textTheme.titleMedium?.color?.withOpacity(0.4),
-                    )),
+                    // Text('${getTranslated('version', context)} ${AppConstants.appVersion}', style: rubikMedium.copyWith(
+                    //   color: Theme.of(context).textTheme.titleMedium?.color?.withOpacity(0.4),
+                    // )),
                     const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
                   ]),

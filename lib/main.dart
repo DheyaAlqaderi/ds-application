@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:hexacom_user/common/widgets/cookies_widget.dart';
 import 'package:hexacom_user/features/address/providers/location_provider.dart';
 import 'package:hexacom_user/features/auth/providers/registration_provider.dart';
@@ -48,6 +49,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show PlatformDispatcher, kIsWeb;
 import 'package:url_strategy/url_strategy.dart';
 import 'di_container.dart' as di;
+import 'firebase_options.dart';
 import 'provider/news_provider.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -55,36 +57,43 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
+
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+
+
   if (ResponsiveHelper.isMobilePhone()) {
     HttpOverrides.global = MyHttpOverrides();
   }
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+  _initializeFirebase();
+  // Firebase.initializeApp();
+  // await FirebaseMessaging.instance.requestPermission();
+  // if (kIsWeb) {.
 
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-        options: const FirebaseOptions(
-        apiKey: "AIzaSyBvAGjA-vsWEB9GNz3bVC2FDDvSgY-wSYM",
-        authDomain: "digitstitch-ded04.firebaseapp.com",
-        projectId: "digitstitch-ded04",
-        storageBucket: "digitstitch-ded04.appspot.com",
-        messagingSenderId: "629310485336",
-        appId: "1:629310485336:web:61757130eb1bf8e6dc6b2d",
-        measurementId: "G-PX7JMDCKNQ"
-    ));
 
-    // await FacebookAuth.instance.webAndDesktopInitialize(
-    //   appId: "3546432684",
-    //   cookie: true,
-    //   xfbml: true,
-    //   version: "v13.0",
-    // );
-  } else {
-    await Firebase.initializeApp();
-    await FirebaseMessaging.instance.requestPermission();
-
-    ///firebase crashlytics
-  }
+  //   _initializeFirebase();
+  //
+  //   await FacebookAuth.instance.webAndDesktopInitialize(
+  //     appId: "1414227736129023",
+  //     cookie: true,
+  //     xfbml: true,
+  //     version: "v13.0",
+  //   );
+  // } else {
+  //   _initializeFirebase();   // new
+  //   Firebase.initializeApp();
+  //   await FirebaseMessaging.instance.requestPermission();
+  //
+  //   ///firebase crashlytics
+  // }
   await di.init();
   int? orderID;
   try {
@@ -262,4 +271,13 @@ class MyHttpOverrides extends HttpOverrides {
 class Get {
   static BuildContext? get context => navigatorKey.currentContext;
   static NavigatorState? get navigator => navigatorKey.currentState;
+}
+
+
+
+/// firebase initialization
+_initializeFirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
