@@ -1,9 +1,7 @@
 # test
 
-A Real estate project.
+A DigitStitch
 
-
-https://github.com/DheyaAlqaderi/ds-application/assets/116699614/2fd29433-a28a-47bc-9fcf-4ae1d508b973
 
 
 ## Getting Started
